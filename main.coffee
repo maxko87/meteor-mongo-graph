@@ -4,7 +4,7 @@ MongoGraph.GRAPHS = {}
 if Meteor.isServer
   
   Meteor.startup ->
-    console.log "Running on " + process.env.MONGO_URL
+    console.log "mongo-graph running on " + process.env.MONGO_URL
 
   path = Npm.require("path")
   Future = Npm.require(path.join("fibers", "future"))
@@ -94,14 +94,10 @@ if Meteor.isClient
     if limit
       pipeline.push {$limit: limit}
 
-    # console.log pipeline
-
     Meteor.call "aggregate", pipeline, (err, points) ->
       if err
         console.error('Mongo aggregation error: ' + err)
         return
-
-      console.log points
 
       # post-process values
       for value in values
@@ -121,19 +117,10 @@ if Meteor.isClient
         else
           return f['_id'].toString()
 
-      # console.log xSeries
-
       series = []
       for seriesName of points[0]
         if seriesName != '_id'
           series.push {name: dec(seriesName), data: _.pluck(points, seriesName)}
-
-      # post processing
-      # for v in values
-      #   if v.postProcess
-
-
-      # console.log series
 
       highchartsData = 
         xAxis:
