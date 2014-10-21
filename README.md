@@ -73,3 +73,5 @@ MongoGraph.create 'ordersPerDay',
   ]
   sortKeys: {month: 1, day: 1} # sorting on keys: first by month, then by day
   ```
+
+a [zinc.io](https://zinc.io) project
