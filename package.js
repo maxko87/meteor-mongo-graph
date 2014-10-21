@@ -1,6 +1,7 @@
 Package.describe({
   summary: "Sweet Highcharts for Mongo queries.",
   version: "1.0.0"
+  git: 'https://github.com/maxko87/meteor-mongo-graph'
 });
 
 Package.onUse(function(api) {
