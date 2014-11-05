@@ -8,9 +8,14 @@ if Meteor.isServer
 
   path = Npm.require("path")
   Future = Npm.require(path.join("fibers", "future"))
+  
+  createCollection = (name) ->
+  for globalVal of global
+    return global[globalVal]  if global[globalVal]._name is name  if global[globalVal] instanceof Mongo.Collection
+  new Mongo.Collection(name)
 
   MongoGraph.initialize = (collectionName) ->
-    MongoGraph.COLLECTION = new Meteor.Collection(collectionName)
+    MongoGraph.COLLECTION = createCollection(collectionName)
 
     MongoGraph.COLLECTION.aggregate = (pipeline) ->
       self = this
