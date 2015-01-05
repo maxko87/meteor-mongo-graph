@@ -4,7 +4,10 @@ MongoGraph.GRAPHS = {}
 if Meteor.isServer
   
   Meteor.startup ->
-    console.log "mongo-graph running on " + process.env.MONGO_URL
+
+    Meteor.methods
+      'aggregate': (pipeline) -> 
+        return MongoGraph.COLLECTION.aggregate(pipeline);
 
   path = Npm.require("path")
   Future = Npm.require(path.join("fibers", "future"))
@@ -36,10 +39,6 @@ if Meteor.isServer
       result = future.wait()
       throw result[1] unless result[0]
       return result[1]
-
-  Meteor.methods
-    'aggregate': (pipeline) -> 
-      return MongoGraph.COLLECTION.aggregate(pipeline);
 
 
 if Meteor.isClient
